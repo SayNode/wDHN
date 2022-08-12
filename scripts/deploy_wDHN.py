@@ -5,5 +5,5 @@ def main():
 
     (_wallet, _wallet_address) = wallet_import_mnemonic(2)
     connector  = connect(1)
-    wDHN = wToken(connector, Token_build_dir, wToken_build_dir)
+    wDHN = wToken(connector, "build_static\DHN.json", "build\contracts\wDHN.json")
     wDHN.deploy_wToken(_wallet)
