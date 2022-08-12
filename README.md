@@ -1,0 +1,5 @@
+# Wrapped DHN
+This repo is for the wrapped version of the DHN token. This was necessary for several reasons:
+1) The original DHN was not made with the ERC20Votes extension. As such it can not be used in the standard DAO framework currently used and provided by Openzepplin. Because of this, we wrap the original token in one that has such extention;
+2) We wanted to be able to delegate only a certain amount of tokens and not the whole balance of an account. To do this, we had to add a delegate_wAmount() function to ERC20Votes and IVotes. This is very usefull for contracts where the tokens are locked but people still want to use them for voting;
+3) We also wanted to be able to re-delegate tokens from somebody, back to the locked contract (for example, if an employee quits, we want to remove the deleagtion of his future tokens, so they may be provided to the next recipient of them). This was done by altering the way the delegate_wAmount() works in contrast with the regular delegate(). --SEE THIS BETTER--
