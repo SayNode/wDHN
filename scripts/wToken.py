@@ -7,7 +7,7 @@ class wToken:
 
     def __init__(self, connector, Token_build_dir, wToken_build_dir):
 
-        self.connector =connector
+        self.connector = connector
         self._contract_Token = Contract.fromFile(Token_build_dir)
         self.Token_contract_address=config('Token_contract_address')
         self._contract_wToken = Contract.fromFile(wToken_build_dir)
@@ -45,6 +45,31 @@ class wToken:
         return int(balance_one["decoded"]["0"])
 
     #
+    #
+    #
+    def get_wallet_balance(self, _wallet_address):
+
+        balance_one = self.connector.call(
+            caller=_wallet_address, # fill in your caller address or all zero address
+            contract=self._contract_Token,
+            func_name="balanceOf",
+            func_params=[_wallet_address],
+            to=self.Token_contract_address,
+        )
+        time.sleep(1)
+        print("Wallet ("+str(_wallet_address)+") DHN balance: " + str(balance_one["decoded"]["0"]))
+
+        balance_two = self.connector.call(
+            caller=_wallet_address, # fill in your caller address or all zero address
+            contract=self._contract_wToken,
+            func_name="balanceOf",
+            func_params=[_wallet_address],
+            to=self.wToken_contract_address,
+        )
+        time.sleep(2)
+        print("Wallet ("+str(_wallet_address)+") wDHN balance: " + str(balance_two["decoded"]["0"]))
+
+    #
     #Wrap Token into wToken
     #
     def wrap_Token(self,_wallet, _wallet_address):
@@ -76,7 +101,7 @@ class wToken:
     def unwrap_Token(self,
                 _wallet, _wallet_address
                 ):
-        balance = self.wallet_balance(self.connector,self._contract_wToken, self.wToken_contract_address, _wallet_address)
+        balance = self.wallet_balance(self._contract_wToken, self.wToken_contract_address, _wallet_address)
 
         #Approves the wToken contract to use the _wallet Tokens
         approve_wToken = self.connector.transact(
