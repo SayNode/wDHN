@@ -1,6 +1,8 @@
 from traceback import print_tb
 from thor_requests.contract import Contract
 from decouple import config
+import dotenv
+import os
 import time
 
 class wToken:
@@ -27,7 +29,13 @@ class wToken:
 
         print("Wrapped Token contract was deployed at:" + str(wToken_contract_address))
 
-        return self._contract_wToken, wToken_contract_address
+        # Set the value wToken_contract_address variable
+        dotenv_file = dotenv.find_dotenv()
+        dotenv.load_dotenv(dotenv_file)
+        os.environ["wToken_contract_address"] = wToken_contract_address
+        dotenv.set_key(dotenv_file, "wToken_contract_address", os.environ["wToken_contract_address"])
+        self.set_wToken_address()
+        return self._contract_wToken, self.wToken_contract_address
 
     #   
     # Get wallet balances, we use "call" in order to not waste any gas 
