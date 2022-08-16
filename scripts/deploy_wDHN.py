@@ -8,7 +8,6 @@ def main():
     (_wallet, _wallet_address) = wallet_import_mnemonic(1)
     connector  = connect(1)
     wDHN = wToken(connector, "build_static\DHN.json", "build\contracts\wDHN.json")
-    #wDHN.set_wToken_address()
     return connector, _wallet, _wallet_address, wDHN
 
 #
